@@ -4,35 +4,6 @@
   box-sizing: border-box;
 }
 
-.container {
-  width: 100%;
-  margin: 0 auto;
-}
-
-.container-login {
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  padding: 15px;
-  background-image: url("./assets/background.jpg");
-  background-size: cover;
-  background-position: center;
-}
-
-.login {
-  width: 390px;
-  background-color: transparent;
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  border-radius: 15px;
-  overflow: hidden;
-  padding: 77px 55px 33px 55px;
-  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2);
-}
-
 .login-form {
   width: 100%;
 }
@@ -40,13 +11,14 @@
 .login-form-title {
   display: block;
   font-size: 30px;
-  color: azure;
+  color: #fff;
   line-height: 1.2;
   text-align: center;
 }
 
 .login-form-title img {
   width: 90px;
+  padding-bottom: 30px;
 }
 
 .input-field {
