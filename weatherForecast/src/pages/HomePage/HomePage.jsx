@@ -1,101 +1,186 @@
-import { useState } from "react";
-import "../../global.css";
+// Modelo 1
+
+import React, { useState } from 'react';
+import '../../global.css';
 
 export const HomePage = () => {
-  const apiKey = "f57695816e3c138a7e222f2e119a1678";
-  // Alterado para suportar três cidades
-  const [cities, setCities] = useState(["", "", ""]);
-  const [weatherData, setWeatherData] = useState([null, null, null]);
+  const [city, setCity] = useState('');
+  const [cities, setCities] = useState([]);
 
-  const getWeatherData = async (city) => {
-    const apiWeatherURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}&lang=pt_br`;
-    const res = await fetch(apiWeatherURL);
-    const data = await res.json();
-    return data;
-  };
-
-  const showWeatherData = async (index) => {
-    const data = await getWeatherData(cities[index]);
-    setWeatherData(
-      weatherData.map((item, idx) => (idx === index ? data : item))
-    );
+  const handleSearch = () => {
+    if (city) {
+      setCities([...cities, city]);
+      setCity(''); // Limpa o input após adicionar a cidade
+    }
   };
 
   return (
-    <div className="container">
-      <div className="form">
-        <h3 className="title">Confira o clima de três cidades:</h3>
-        <div className="form-input-container">
-          {cities.map((city, index) => (
-            <div
-              key={index}
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                marginRight: "20px",
-              }}
-            >
-              <input
-                type="text"
-                placeholder={`Digite o nome da cidade ${index + 1}`}
-                className="cityInput"
-                value={city}
-                onChange={(e) => {
-                  const newCities = [...cities];
-                  newCities[index] = e.target.value;
-                  setCities(newCities);
-                }}
-                onKeyUp={(e) => e.code === "Enter" && showWeatherData(index)}
-              />
-              <button className="search" onClick={() => showWeatherData(index)}>
-                Pesquisar
-              </button>
-            </div>
-          ))}
-        </div>
+    <div className="home-page-container">
+      <div className="search-section">
+        <input
+          type="text"
+          placeholder="Digite o nome da cidade"
+          value={city}
+          onChange={(e) => setCity(e.target.value)}
+          onKeyUp={(e) => e.key === 'Enter' && handleSearch()}
+        />
+        <button onClick={handleSearch}>Pesquisar</button>
       </div>
-
-      <div style={{ display: "flex", justifyContent: "space-around" }}>
-        {weatherData.map((data, index) =>
-          data ? (
-            <div key={index} className="weather-data">
-              <h2>
-                {data.name}
-                <img
-                  src={`https://flagsapi.com/${data.sys.country}/flat/24.png`}
-                  alt="Bandeira do país"
-                />
-              </h2>
-              <p className="temperature">{parseInt(data.main.temp)}&deg;C</p>
-              <div className="description-container">
-                <p className="description">{data.weather[0].description}</p>
-                <img
-                  src={`http://openweathermap.org/img/wn/${data.weather[0].icon}.png`}
-                  alt="Condições do tempo"
-                  className="weather-icon"
-                />
-              </div>
-              <div className="details-container">
-                <p className="umidity">
-                  Umidade:
-                  {` ${data.main.humidity}%`}
-                </p>
-                <p className="wind">
-                  Ventos de
-                  {` ${parseInt(data.wind.speed)} km/h`}
-                </p>{" "}
-              </div>
-              <p className="sensation">
-                Sensação Térmica de {parseInt(data.main.feels_like)}°C
-              </p>
-            </div>
-          ) : null
-        )}
+      <div className="results-section">
+        {cities.map((city, index) => (
+          <div key={index} className="city-result">
+            {city}
+            {/* Aqui você pode adicionar mais detalhes sobre a cidade */}
+          </div>
+        ))}
       </div>
     </div>
   );
-};
+};  
+
+.home-page-container {
+  display: flex;
+  height: 100vh;
+}
+
+.search-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.results-section {
+  flex: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  padding: 20px;
+  overflow-y: auto; /* Permite a rolagem se houver muitos resultados */
+}
+
+.city-result {
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+// Modelo 2
+
+// import { useEffect, useState } from "react";
+// import "../../global.css";
+
+// export const HomePage = () => {
+//   useEffect(() => {
+//     // Adiciona a classe ao body quando o componente é montado
+//     document.body.classList.add('home-page-body');
+
+//     // Remove a classe quando o componente é desmontado
+//     return () => {
+//       document.body.classList.remove('home-page-body');
+//     };
+//   }, []);
+
+//   const apiKey = "f57695816e3c138a7e222f2e119a1678";
+//   // Alterado para suportar três cidades
+//   const [cities, setCities] = useState(["", "", ""]);
+//   const [weatherData, setWeatherData] = useState([null, null, null]);
+
+//   const getWeatherData = async (city) => {
+//     const apiWeatherURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}&lang=pt_br`;
+//     const res = await fetch(apiWeatherURL);
+//     const data = await res.json();
+//     return data;
+//   };
+
+//   const showWeatherData = async (index) => {
+//     const data = await getWeatherData(cities[index]);
+//     setWeatherData(
+//       weatherData.map((item, idx) => (idx === index ? data : item))
+//     );
+//   };
+
+//   return (
+
+//     <div className="containerHomePage">
+//       <div className="form">
+//         <h3 className="title">Confira o clima de três cidades:</h3>
+//         <div className="form-input-container">
+//           {cities.map((city, index) => (
+//             <div
+//               key={index}
+//               style={{
+//                 display: "flex",
+//                 flexDirection: "column",
+//                 alignItems: "center",
+//                 marginRight: "20px",
+//               }}
+//             >
+//               <input
+//                 type="text"
+//                 placeholder={`Digite o nome da cidade ${index + 1}`}
+//                 className="cityInput"
+//                 value={city}
+//                 onChange={(e) => {
+//                   const newCities = [...cities];
+//                   newCities[index] = e.target.value;
+//                   setCities(newCities);
+//                 }}
+//                 onKeyUp={(e) => e.code === "Enter" && showWeatherData(index)}
+//               />
+//               <button className="search" onClick={() => showWeatherData(index)}>
+//                 Pesquisar
+//               </button>
+//             </div>
+//           ))}
+//         </div>
+//       </div>
+
+//       <div style={{ display: "flex", justifyContent: "space-around" }}>
+//         {weatherData.map((data, index) =>
+//           data ? (
+//             <div key={index} className="weather-data">
+//               <h2>
+//                 {data.name}
+//                 <img className="countryFlag"
+//                   src={`https://flagsapi.com/${data.sys.country}/flat/24.png`}
+//                   alt="Bandeira do país"
+//                 />
+//               </h2>
+//               <p className="temperature">{parseInt(data.main.temp)}&deg;C</p>
+//               <div className="description-container">
+//                 <p className="description">{data.weather[0].description}</p>
+//                 <img
+//                   src={`http://openweathermap.org/img/wn/${data.weather[0].icon}.png`}
+//                   alt="Condições do tempo"
+//                   className="weather-icon"
+//                 />
+//               </div>
+//               <div className="details-container">
+//                 <p className="umidity">
+//                   Umidade:
+//                   {` ${data.main.humidity}%`}
+//                 </p>
+//                 <p className="wind">
+//                   Ventos de
+//                   {` ${parseInt(data.wind.speed)} km/h`}
+//                 </p>{" "}
+//               </div>
+//               <p className="sensation">
+//                 Sensação Térmica de {parseInt(data.main.feels_like)}°C
+//               </p>
+//             </div>
+//           ) : null
+//         )}
+//       </div>
+//     </div>
+//   );
+// };
+
+// Modelo 1
 
 // export const HomePage = () => {
 //   const apiKey = "f57695816e3c138a7e222f2e119a1678";
