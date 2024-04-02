@@ -144,3 +144,107 @@ input {
   line-height: 1.5;
   text-decoration: none;
 }
+
+* {
+  padding: 0;
+  margin: 0;
+  font-family: sans-serif;
+}
+
+body {
+  background-color: powderblue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.hide {
+  display: none;
+}
+
+.container {
+  background-color: rgb(140, 202, 210);
+  box-shadow: black 0px 0px 9px;
+  padding: 2rem;
+  border-radius: 1rem;
+  user-select: none;
+}
+
+.title {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.form-input-container {
+  display: flex;
+}
+
+.cityInput {
+  padding: 0.8rem;
+  border: solid black 1px;
+  flex: 1;
+  border-radius: 10px;
+}
+
+.search {
+  padding: 0.8rem;
+  min-width: 50px;
+  margin-top: 10px;
+  background-color: powderblue;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.temperature {
+  margin-top: 1rem;
+  font-size: 1.3rem;
+}
+
+.weather-data {
+  border-top: 1px solid;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  text-align: center;
+}
+
+.weather-data h2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0.6rem;
+}
+
+.weather-data span {
+  margin: 0.6rem;
+}
+
+.country {
+  height: 20px;
+}
+
+.description {
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+.description-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem 0 0 0;
+}
+
+.details-container {
+  display: block;
+  justify-content: center;
+  align-items: center;
+}
+
+.details-container #umidity {
+  border-right: 1px solid;
+  margin: 0.9rem;
+  padding: 0.6rem;
+}

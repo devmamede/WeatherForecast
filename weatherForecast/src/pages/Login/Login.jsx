@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../../login.css";
+import "../../global.css";
 import icon from "../../assets/sun-icon.png";
 import { DefaultComponents } from "../../components/DefaultComponents";
 
@@ -37,7 +37,9 @@ export const Login = () => {
         </div>
 
         <div className="container-login-form-btn">
-          <button className="login-form-btn">Login</button>
+          <a href="/homepage" className="login-form-btn">
+            Login
+          </a>
         </div>
 
         <div className="no-account">
