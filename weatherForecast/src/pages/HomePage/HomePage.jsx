@@ -1,15 +1,45 @@
 // Modelo 1
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../../global.css';
 
 export const HomePage = () => {
   const [city, setCity] = useState('');
   const [cities, setCities] = useState([]);
+  const [weatherData, setWeatherData] = useState({});
 
-  const handleSearch = () => {
-    if (city) {
+  useEffect(() => {
+    // Adiciona a classe ao body quando o componente é montado
+    document.body.classList.add('home-page-body');
+
+    // Remove a classe quando o componente é desmontado
+    return () => {
+      document.body.classList.remove('home-page-body');
+    };
+  }, []);
+
+  const apiKey = "f57695816e3c138a7e222f2e119a1678";
+
+  const getWeatherData = async (cityName) => {
+    const apiWeatherURL = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&appid=${apiKey}&lang=pt_br`;
+    try {
+      const res = await fetch(apiWeatherURL);
+      if (!res.ok) {
+        throw new Error('Erro ao buscar dados do clima');
+      }
+      const data = await res.json();
+      return data;
+    } catch (error) {
+      console.error("Erro ao buscar dados do clima:", error);
+      return null;
+    }
+  };
+
+  const handleSearch = async () => {
+    if (city && !cities.includes(city)) {
       setCities([...cities, city]);
+      const data = await getWeatherData(city);
+      setWeatherData({ ...weatherData, [city]: data });
       setCity(''); // Limpa o input após adicionar a cidade
     }
   };
@@ -18,6 +48,7 @@ export const HomePage = () => {
     <div className="home-page-container">
       <div className="search-section">
         <input
+        className='cityInput'
           type="text"
           placeholder="Digite o nome da cidade"
           value={city}
@@ -26,47 +57,45 @@ export const HomePage = () => {
         />
         <button onClick={handleSearch}>Pesquisar</button>
       </div>
-      <div className="results-section">
-        {cities.map((city, index) => (
-          <div key={index} className="city-result">
-            {city}
-            {/* Aqui você pode adicionar mais detalhes sobre a cidade */}
-          </div>
+      <div className="results-section" style={{ display: "flex", justifyContent: "space-around" }}>
+        {cities.map((cityName, index) => (
+          weatherData[cityName] ? (
+            <div key={index} className="weather-data">
+              <h2>
+                {weatherData[cityName].name}
+                <img className="countryFlag"
+                  src={`https://flagsapi.com/${weatherData[cityName].sys.country}/flat/24.png`}
+                  alt="Bandeira do país"
+                />
+              </h2>
+              <p className="temperature">{parseInt(weatherData[cityName].main.temp)}&deg;C</p>
+              <div className="description-container">
+                <p className="description">{weatherData[cityName].weather[0].description}</p>
+                <img
+                  src={`http://openweathermap.org/img/wn/${weatherData[cityName].weather[0].icon}.png`}
+                  alt="Condições do tempo"
+                  className="weather-icon"
+                />
+              </div>
+              <div className="details-container">
+                <p className="umidity">
+                  Umidade: {`${weatherData[cityName].main.humidity}%`}
+                </p>
+                <p className="wind">
+                  Ventos de {`${parseInt(weatherData[cityName].wind.speed)} km/h`}
+                </p>
+              </div>
+              <p className="sensation">
+                Sensação Térmica de {parseInt(weatherData[cityName].main.feels_like)}°C
+              </p>
+            </div>
+          ) : null
         ))}
       </div>
     </div>
   );
-};  
+};
 
-.home-page-container {
-  display: flex;
-  height: 100vh;
-}
-
-.search-section {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-}
-
-.results-section {
-  flex: 2;
-  display: flex;
-  flex-wrap: wrap;
-  align-content: flex-start;
-  padding: 20px;
-  overflow-y: auto; /* Permite a rolagem se houver muitos resultados */
-}
-
-.city-result {
-  margin: 10px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
 
 // Modelo 2
 

@@ -148,10 +148,8 @@ input {
 
 .home-page-body {
   background-color: powderblue;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  flex-direction: row;
+  width: 100vw;
 }
 
 .hide {
@@ -175,25 +173,10 @@ input {
   margin-left: .5rem;
 }
 
-.form-input-container {
-  display: flex;
-}
-
 .cityInput {
   padding: 0.8rem;
   border: solid black 1px;
-  flex: 1;
   border-radius: 10px;
-}
-
-.search {
-  padding: 0.8rem;
-  min-width: 50px;
-  margin-top: 10px;
-  background-color: powderblue;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
 }
 
 .temperature {
@@ -246,4 +229,35 @@ input {
   border-right: 1px solid;
   margin: 0.9rem;
   padding: 0.6rem;
+}
+
+.home-page-container {
+  display: flex;
+  height: 100vh;
+}
+
+.search-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.results-section {
+  border: 1px solid black;
+  flex: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.city-result {
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
