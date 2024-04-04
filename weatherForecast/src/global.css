@@ -261,3 +261,17 @@ input {
   border: 1px solid #ccc;
   border-radius: 5px;
 }
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-header h2, .card-header input {
+  flex-grow: 1;
+}
+
+.card-header button {
+  margin-left: 10px;
+}
