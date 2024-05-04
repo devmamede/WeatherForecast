@@ -179,6 +179,7 @@ input {
   border-radius: 12px;
   background-color: white;
   font-weight: bold;
+  cursor: pointer;
 }
 
 .title {
