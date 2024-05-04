@@ -1,27 +1,24 @@
-# from flask import Flask, jsonify, request
-# from flask_cors import CORS
-# import requests
+from flask import Flask, request, jsonify
+from flask_cors import CORS
+import requests
 
-# app = Flask(__name__)
-# CORS(app)
-
-# @app.route('/weather', methods=['GET'])
-# def get_weather():
-#     city_name = request.args.get('city')
-#     api_key = 'f57695816e3c138a7e222f2e119a1678'
-#     api_url = f"https://api.openweathermap.org/data/2.5/weather?q={city_name}&units=metric&appid={api_key}&lang=pt_br"
-#     response = requests.get(api_url)
-#     if response.ok:
-#         return jsonify(response.json()), 200
-#     else:
-#         return jsonify({"error": "Erro ao buscar dados do clima"}), 404
-
-# if __name__ == '__main__':
-#     app.run(debug=True)
-
-from flask import Flask
 app = Flask(__name__)
+CORS(app)
 
-@app.route("/")
-def home():
-    return "Hello, Flask!"
+@app.route('/weather', methods=['GET'])
+def get_weather_data():
+    city = request.args.get('city')
+    api_weather_url = f'https://api.openweathermap.org/data/2.5/weather?q={city}&units=metric&appid=f57695816e3c138a7e222f2e119a1678&lang=pt_br'
+    
+    try:
+        res = requests.get(api_weather_url)
+        if not res.ok:
+            raise Exception('Erro ao buscar dados do clima')
+        
+        data = res.json()
+        return jsonify(data)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+if __name__ == '__main__':
+    app.run(port=5000)
