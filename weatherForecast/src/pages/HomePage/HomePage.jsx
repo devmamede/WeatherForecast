@@ -9,13 +9,6 @@ export const HomePage = () => {
   const [weatherData, setWeatherData] = useState({});
   const [editMode, setEditMode] = useState({});
 
-  //   useEffect(() => {
-  //     document.body.classList.add("home-page-body");
-  //     return () => {
-  //       document.body.classList.remove("home-page-body");
-  //     };
-  //   }, []);
-
   useEffect(() => {
     document.body.classList.add("home-page-body");
     const loadedCities = JSON.parse(localStorage.getItem("cities"));
@@ -46,17 +39,6 @@ export const HomePage = () => {
     }
   };
 
-  //   const handleSearch = async (newCity = city) => {
-  //     if (newCity && !cities.includes(newCity)) {
-  //       const data = await getWeatherData(newCity);
-  //       if (data) {
-  //         setCities([...cities, newCity]);
-  //         setWeatherData({ ...weatherData, [newCity]: data });
-  //       }
-  //     }
-  //     setCity(""); // Limpa o input após adicionar a cidade
-  //   };
-
   const handleSearch = async (newCity = city) => {
     if (newCity && !cities.includes(newCity)) {
       const data = await getWeatherData(newCity);
@@ -71,13 +53,6 @@ export const HomePage = () => {
     }
     setCity(""); // Limpa o input após adicionar a cidade
   };
-
-  //   const handleRemoveCity = (cityName) => {
-  //     setCities(cities.filter((city) => city !== cityName));
-  //     const newWeatherData = { ...weatherData };
-  //     delete newWeatherData[cityName];
-  //     setWeatherData(newWeatherData);
-  //   };
 
   const handleRemoveCity = (cityName) => {
     const updatedCities = cities.filter((city) => city !== cityName);
