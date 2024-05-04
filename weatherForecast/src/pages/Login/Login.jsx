@@ -3,26 +3,6 @@ import "../../global.css";
 import icon from "../../assets/sun-icon.png";
 import { DefaultComponents } from "../../components/DefaultComponents";
 
-const { Pool } = "pg";
-
-const pool = new Pool({
-  user: "your_user",
-  host: "localhost",
-  database: "atabase",
-  password: "password",
-  port: 5432,
-});
-
-const checkUserCredentials = async (email, password) => {
-  try {
-    const query = "SELECT * FROM usuarios WHERE email = $1 AND senha = $2";
-    const result = await pool.query(query, [email, password]);
-    console.log(result.rows);
-  } catch (error) {
-    console.error("Error checking user credentials:", error);
-  }
-};
-
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -57,11 +37,7 @@ export const Login = () => {
         </div>
 
         <div className="container-login-form-btn">
-          <a
-            onClick={checkUserCredentials(email, password)}
-            href="/homepage"
-            className="login-form-btn"
-          >
+          <a href="/homepage" className="login-form-btn">
             Login
           </a>
         </div>

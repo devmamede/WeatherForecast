@@ -1,33 +1,7 @@
 import { useState } from "react";
 import { DefaultComponents } from "../../components/DefaultComponents";
-import { Pool } from "pg";
 
 import icon from "../../assets/sun-icon.png";
-
-const pool = new Pool({
-  user: "seuusuario",
-  host: "localhost",
-  database: "email",
-  password: "password",
-  port: 5432,
-});
-
-const query = "INSERT INTO usuarios (email, senha) VALUES ($1, $2)";
-const values = ["user@example.com", "password123"];
-await pool.query(query, values);
-console.log("Usuário registrado com sucesso!");
-
-const handleRegister = async () => {
-  try {
-    const query = "INSERT INTO usuarios (email, senha) VALUES ($1, $2, $3)";
-    await pool.query(query, values);
-    console.log("Usuário registrado com sucesso!");
-  } catch (error) {
-    console.error("Erro ao inserir usuário:", error);
-  }
-};
-
-pool.end();
 
 export const Register = () => {
   const [email, setEmail] = useState("");
@@ -62,9 +36,7 @@ export const Register = () => {
         </div>
 
         <div className="container-login-form-btn">
-          <button onClick={handleRegister} className="login-form-btn">
-            Criar conta
-          </button>
+          <button className="login-form-btn">Criar conta</button>
         </div>
 
         <div className="no-account">
