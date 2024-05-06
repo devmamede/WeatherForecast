@@ -54,6 +54,25 @@ export const HomePage = () => {
     setCity(""); // Limpa o input após adicionar a cidade
   };
 
+  const handleShare = async (cityName) => {
+    const weather = weatherData[cityName];
+    const shareData = {
+      title: `Confira a temperatura atual do(a) ${weather.name}`,
+      text: `${weather.name} está fazendo ${parseInt(weather.main.temp)}°C e ${
+        weather.weather[0].description
+      }. A umidade é ${weather.main.humidity}%, e com ventos de ${parseInt(
+        weather.wind.speed
+      )} km/h.`,
+    };
+
+    try {
+      await navigator.share(shareData);
+      console.log("Weather shared successfully!");
+    } catch (error) {
+      console.error("Error sharing the weather:", error);
+    }
+  };
+
   const handleRemoveCity = (cityName) => {
     const updatedCities = cities.filter((city) => city !== cityName);
     const updatedWeatherData = { ...weatherData };
@@ -180,6 +199,13 @@ export const HomePage = () => {
                   {parseInt(weatherData[cityName].main.feels_like)}°C
                 </p>
               </div>
+
+              <button
+                className="share-button"
+                onClick={() => handleShare(cityName)}
+              >
+                Compartilhar
+              </button>
             </div>
           ) : null
         )}
